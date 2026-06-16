@@ -1,0 +1,8 @@
+{
+  "name": "InterviewAce AI",
+  "description": "An AI-powered interview preparation platform featuring resume analysis and real-time mock interviews with personalized AI feedback.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

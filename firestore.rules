@@ -1,0 +1,104 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Default Catch-All Deny Block
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- REUSABLE SECURITY PRIMITIVES ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // --- COLLECTION RULES FOR FORTRESS PATTERN ---
+
+    // Users Profiles
+    match /users/{userId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
+      allow create, update: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Resume Histories
+    match /resumes/{resumeId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Interview Prep Sessions
+    match /interviewSessions/{sessionId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Section Questions list
+    match /questions/{questionId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // Playground Sandbox Code Submissions
+    match /codeSubmissions/{submissionId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Autosaved coding workspace status
+    match /autoSavedCodes/{saveId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Roadmap DSA Modules progress
+    match /topicProgresses/{progressId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Blind 75 Progress logs
+    match /sheetQuestionProgresses/{progressId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Daily missions checklist state
+    match /dailyMissions/{missionId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Student Active Coding Streaks
+    match /codingStreaks/{streakId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Academic MCQs Quiz scoring logs
+    match /placementQuizScores/{scoreId} {
+      allow get, list, update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Shared DSA structure viewer canvas setups
+    match /sharedDsaSessions/{sessionId} {
+      allow get: if true; // Public shared session is readable
+      allow list: if isSignedIn();
+      allow create: if true; // Allows saving guest visual state
+      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Gemini API Query Caching
+    match /aiCache/{cacheId} {
+      allow read, write: if true; // Cache holds non-personal compiled concepts
+    }
+  }
+}

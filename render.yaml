@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: interview-ace-ai
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GEMINI_API_KEY
+        sync: false
+        placeholder: "Enter your Gemini API Key"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: APP_URL
+        sync: false
+        placeholder: "Enter the deployed app URL or leave blank"

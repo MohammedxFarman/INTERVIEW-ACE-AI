@@ -1,0 +1,236 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account schema representing candidates in the system.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique user identifier." },
+        "name": { "type": "string", "description": "Candidate full name." },
+        "email": { "type": "string", "description": "Candidate email address." },
+        "passwordHash": { "type": "string", "description": "Hashed password." },
+        "createdAt": { "type": "string", "description": "ISO timestamp of sign up." },
+        "isAdmin": { "type": "boolean", "description": "True if user is admin." }
+      },
+      "required": ["id", "name", "email", "passwordHash", "createdAt"]
+    },
+    "Resume": {
+      "title": "Resume Evaluation",
+      "description": "Information parsed from resume upload and related ATS ratings.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "filename": { "type": "string" },
+        "uploadDate": { "type": "string" },
+        "resumeScore": { "type": "number" },
+        "atsScore": { "type": "number" }
+      },
+      "required": ["id", "userId", "filename", "uploadDate", "resumeScore", "atsScore"]
+    },
+    "InterviewSession": {
+      "title": "Interview Prep Session",
+      "description": "Structure of an interactive role interview session.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "role": { "type": "string" },
+        "difficulty": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "userId", "role", "difficulty", "createdAt", "status"]
+    },
+    "Question": {
+      "title": "Interview Question Instance",
+      "description": "A specific question within an interview session series.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "sessionId": { "type": "string" },
+        "question": { "type": "string" }
+      },
+      "required": ["id", "sessionId", "question"]
+    },
+    "CodeSubmission": {
+      "title": "Code Solution Submission",
+      "description": "Log of run code outcomes in the interactive play arena.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "problemId": { "type": "string" },
+        "problemTitle": { "type": "string" },
+        "language": { "type": "string" },
+        "code": { "type": "string" },
+        "status": { "type": "string" },
+        "executionTime": { "type": "string" },
+        "memoryUsage": { "type": "string" },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "problemId", "problemTitle", "language", "code", "status", "submittedAt"]
+    },
+    "AutoSavedCode": {
+      "title": "Sandbox Autosave Workspace State",
+      "description": "Real-time scratchpad autosave per language per problem.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "problemId": { "type": "string" },
+        "language": { "type": "string" },
+        "code": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "problemId", "language", "code", "updatedAt"]
+    },
+    "TopicProgress": {
+      "title": "DSA Topic Study Progress",
+      "description": "Progress state index mapping standard roadmap topic modules.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "topicId": { "type": "string" },
+        "status": { "type": "string" },
+        "lastStudiedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "topicId", "status", "lastStudiedAt"]
+    },
+    "SheetQuestionProgress": {
+      "title": "Top 100 Coding Sheet Progress Checkpoint",
+      "description": "Verification of solved problem entries in compilation sheet.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "questionId": { "type": "string" },
+        "status": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "questionId", "status", "updatedAt"]
+    },
+    "DailyMissionState": {
+      "title": "Daily Multi-Mission State Logs",
+      "description": "Realtime tracked status of easy, medium, and hard target completion.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "dateStr": { "type": "string" },
+        "easySolved": { "type": "boolean" },
+        "mediumSolved": { "type": "boolean" },
+        "hardSolved": { "type": "boolean" },
+        "easyId": { "type": "string" },
+        "mediumId": { "type": "string" },
+        "hardId": { "type": "string" }
+      },
+      "required": ["userId", "dateStr", "easySolved", "mediumSolved", "hardSolved"]
+    },
+    "UserCodingStreak": {
+      "title": "User Coding Streak and solved counts",
+      "description": "State analytics of chronological solve sequences.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "streakCount": { "type": "number" },
+        "problemsSolvedCount": { "type": "number" },
+        "lastSolvedDate": { "type": "string" }
+      },
+      "required": ["userId", "streakCount", "problemsSolvedCount"]
+    },
+    "PlacementQuizScore": {
+      "title": "Hub Academic MCQ Scores",
+      "description": "Score reports of mock tests completed in placement prepping zone.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "category": { "type": "string" },
+        "score": { "type": "number" },
+        "totalQuestions": { "type": "number" },
+        "correctAnswers": { "type": "number" },
+        "attemptedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "category", "score", "totalQuestions", "correctAnswers", "attemptedAt"]
+    },
+    "SharedDsaSession": {
+      "title": "Shared DSA Structure Session",
+      "description": "A public checkpoint layout saved state that other students can load.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "structure": { "type": "string" },
+        "stateData": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "structure", "stateData", "createdAt"]
+    },
+    "AiCache": {
+      "title": "Gemini AI Cache Logs",
+      "description": "Cached responses to avoid duplicate calls to Gemini API.",
+      "type": "object",
+      "properties": {
+        "key": { "type": "string" },
+        "response": { "type": "string" },
+        "expiresAt": { "type": "string" }
+      },
+      "required": ["key", "response", "expiresAt"]
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "User",
+      "description": "Registered user accounts collection."
+    },
+    "resumes": {
+      "schema": "Resume",
+      "description": "ATS parser resume feedback history collection."
+    },
+    "interviewSessions": {
+      "schema": "InterviewSession",
+      "description": "Active and finished interactive verbal interview sessions."
+    },
+    "questions": {
+      "schema": "Question",
+      "description": "Evaluated question sets connected to user prep sessions."
+    },
+    "codeSubmissions": {
+      "schema": "CodeSubmission",
+      "description": "Submissions completed inside play arena."
+    },
+    "autoSavedCodes": {
+      "schema": "AutoSavedCode",
+      "description": "Realtime sandbox editor progress backups."
+    },
+    "topicProgresses": {
+      "schema": "TopicProgress",
+      "description": "DSA Roadmap syllabus checkpoints."
+    },
+    "sheetQuestionProgresses": {
+      "schema": "SheetQuestionProgress",
+      "description": "Top 100 blind sheets checkpoints."
+    },
+    "dailyMissions": {
+      "schema": "DailyMissionState",
+      "description": "Daily easy/mid/hard task tracked checklists."
+    },
+    "codingStreaks": {
+      "schema": "UserCodingStreak",
+      "description": "Active streaks profiles tracking solve patterns."
+    },
+    "placementQuizScores": {
+      "schema": "PlacementQuizScore",
+      "description": "Technical MCQ quiz log scoring cards."
+    },
+    "sharedDsaSessions": {
+      "schema": "SharedDsaSession",
+      "description": "Public checkpoints visual sessions."
+    },
+    "aiCache": {
+      "schema": "AiCache",
+      "description": "Gemini cost-optimization caches."
+    }
+  }
+}

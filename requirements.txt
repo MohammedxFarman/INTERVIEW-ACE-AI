@@ -1,0 +1,5 @@
+# Python requirements.txt (Optional placeholder for Replit mapping targets)
+# Platform is fully optimized using high-speed modular TypeScript / Node.js
+# with Express + Vite on Port 3000 to maximize container runtime stability.
+# To start, run: npm install && npm run dev
+# No additional python core systems required.
